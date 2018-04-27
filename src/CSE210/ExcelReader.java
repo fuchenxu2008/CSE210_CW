@@ -45,36 +45,31 @@ public class ExcelReader {
         for (Row row : this.sheet) {
             // Map the title row
             if (row.getRowNum() == 0) this.mapTitles(row);
-            else {
-                // Get researcher info from row
-                String user = getColumn(row, "User");
-                String university = getColumn(row, "University");
-                String department = getColumn(row, "Department");
-                String topics = getColumn(row, "Topics");
-                String skills = getColumn(row, "Skills");
-                String interestStr = "";
-                // Concate topics and skills properly for splitting
-                if (topics.isEmpty() || skills.isEmpty()) interestStr = (topics + skills);
-                else interestStr = topics + "," + skills;
-                String[] interestSet = interestStr.split(",");
-                // Add researcher to map
-                Researcher researcher = new Researcher(user, university, department, interestSet);
-                // Handle interests
-                for (String interest : interestSet) {
-                    interest = interest.trim();
-                    if (!interest.isEmpty()) {
-                        ArrayList<Researcher> interestedResearchersList = new ArrayList<>();
-                        if (Interest.interestMap.containsKey(interest)) {
-                            interestedResearchersList = Interest.interestMap.get(interest);
-                        }
-                        interestedResearchersList.add(researcher);
-                        Interest.interestMap.put(interest, interestedResearchersList);
-                    }
-                }
-            }
+            else this.addRecord(row);
         }
     }
 
+    public void addRecord(Row row) {
+        // Get researcher info from row
+        String user = getColumn(row, "User").trim();
+        String university = getColumn(row, "University").trim();
+        String department = getColumn(row, "Department").trim();
+        String topics = getColumn(row, "Topics").trim();
+        String skills = getColumn(row, "Skills").trim();
+        String interestStr = "";
+        // Concate topics and skills properly for splitting
+        if (topics.isEmpty() || skills.isEmpty())
+            interestStr = (topics + skills);
+        else
+            interestStr = topics + "," + skills;
+        String[] interestSet = interestStr.split(",");
+        // Add researcher to map
+        Researcher researcher = new Researcher(user, university, department, interestSet);
+        // Handle interests
+        for (String interest : interestSet) {
+            Interest.addInterest(interest.trim(), researcher);
+        }
+    }
 
     public void mapTitles(Row row) {
         for (Cell cell : row) {
@@ -82,25 +77,10 @@ public class ExcelReader {
         }
     }
 
-    // public void getColumn(String title) {
-    //     int colIndex = this.colTitles.get(title);
-    //     for (Row row : this.sheet) {
-    //         Cell cell = row.getCell(colIndex);
-    //         System.out.println(formatter.formatCellValue(cell));
-    //     }
-    // }
-
     public String getColumn(Row row, String title) {
         int colIndex = this.colTitles.get(title);
         Cell cell = row.getCell(colIndex);
         return formatter.formatCellValue(cell);
     }
-
-    // public void readCell() {
-    //     Row row = this.sheet.getRow(2);
-    //     Cell cell = row.getCell(12);
-    //     String val = formatter.formatCellValue(cell);
-    //     System.out.println(val + 1);
-    // }
     
 }
