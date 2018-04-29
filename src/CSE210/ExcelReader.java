@@ -8,18 +8,16 @@ import java.io.File;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-// import org.apache.poi.ss.util.CellReference;
-// import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Cell;
-// import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class ExcelReader {
     // Formatter to get Excel cell content regardless of type
@@ -45,6 +43,7 @@ public class ExcelReader {
         for (Row row : this.sheet) {
             // Map the title row
             if (row.getRowNum() == 0) this.mapTitles(row);
+            // Add records for the content rows
             else this.addRecord(row);
         }
     }
@@ -62,21 +61,27 @@ public class ExcelReader {
             interestStr = (topics + skills);
         else
             interestStr = topics + "," + skills;
-        String[] interestSet = interestStr.split(",");
+        HashSet<String> interestSet = new HashSet<>();
+        // Handle interests
+        for (String interest : interestStr.split(",")) {
+            interestSet.add(interest.trim());
+        }
         // Add researcher to map
         Researcher researcher = new Researcher(user, university, department, interestSet);
-        // Handle interests
+        // Use set to eliminate duplicate interests
         for (String interest : interestSet) {
-            Interest.addInterest(interest.trim(), researcher);
+            Interest.addInterest(interest.toLowerCase(), researcher);
         }
     }
 
     public void mapTitles(Row row) {
         for (Cell cell : row) {
+            // Set up column title => column index mapping relation
             this.colTitles.put(formatter.formatCellValue(cell), cell.getColumnIndex());
         }
     }
 
+    // Get designated column in row by column title
     public String getColumn(Row row, String title) {
         int colIndex = this.colTitles.get(title);
         Cell cell = row.getCell(colIndex);
