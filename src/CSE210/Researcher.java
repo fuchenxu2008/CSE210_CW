@@ -5,8 +5,11 @@
 package src.CSE210;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import src.CSE210.Utility;
 
@@ -78,13 +81,11 @@ public class Researcher {
     public double cosineSimilarityWith(Researcher comparedResearcher) {
         HashSet<String> commonInterests = (HashSet<String>)this.getInterest().clone();
         commonInterests.retainAll(comparedResearcher.getInterest());
-        // System.out.println("common interest size" + commonInterests.size());
         if (commonInterests.size() == 0) {
             return 0;
         } else {
             HashSet<String> unionInterests = (HashSet<String>)this.getInterest().clone();
             unionInterests.addAll(comparedResearcher.getInterest());
-            // System.out.println("union interest size" + unionInterests.size());
             int product = 0;
             double den1 = 0, den2 = 0;
             for (String unionInterest : unionInterests) {
@@ -93,25 +94,33 @@ public class Researcher {
                 product += pickedHasInterest * comparedHasInterest;
                 den1 += Math.pow(pickedHasInterest, 2);
                 den2 += Math.pow(comparedHasInterest, 2);
-                // System.out.println("picked: " + pickedHasInterest + " compared: " + comparedHasInterest);
             }
-            // System.out.println("Product = " + product);
-            // System.out.println("den1 = " + den1 + "den2 = " + den2);
             return product / (Math.sqrt(den1) * Math.sqrt(den2));
         }
     }
 
     public static void recommendSimilar(Researcher pickedResearcher) {
-        ArrayList<Double> similarityRank = new ArrayList<>();
+        HashMap<Researcher, Double> similarityRank = new HashMap<>();
         for (ArrayList<Researcher> researchersWithName: researcherMap.values()) {
             for (Researcher comparedResearcher : researchersWithName) {
                 if (!pickedResearcher.equals(comparedResearcher)) {
                     double similarity = pickedResearcher.cosineSimilarityWith(comparedResearcher);
                     if (similarity > 0) {
-                        System.out.println(similarity + comparedResearcher.getName());
+                        similarityRank.put(comparedResearcher, similarity);   
                     }
                 }
             }
+        }
+        ArrayList<Map.Entry<Researcher, Double>> similarityRankList = new ArrayList<>(similarityRank.entrySet());
+        Collections.sort(similarityRankList, new Comparator<Map.Entry<Researcher, Double>>() {
+            public int compare(Map.Entry<Researcher, Double> o1, Map.Entry<Researcher, Double> o2) {
+                //o1 to o2升序   o2 to o1降序
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        int NumOfRecommendation = similarityRankList.size() >= 5 ? 5 : similarityRankList.size();
+        for (int i = 0; i < NumOfRecommendation; i++) {
+            System.out.printf("%d. %s: %f\n", i + 1, similarityRankList.get(i).getKey().getName(), similarityRankList.get(i).getValue());
         }
     }
 
