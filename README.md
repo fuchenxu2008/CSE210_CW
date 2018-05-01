@@ -25,17 +25,17 @@ It is capable of computing the following information:
 
     ``` Bash
     javac -cp ".:lib/*" src/CSE210/Main.java -Xlint
-    java -cp ".:lib/*" src/CSE210/Main
+    java -cp ".:lib/*" -ea src/CSE210/Main
     ```
 
 3. For Windows user
 
     ``` Bash
     javac -cp ".;lib/*" src/CSE210/Main.java -Xlint
-    java -cp ".;lib/*" src/CSE210/Main
+    java -cp ".;lib/*" -ea src/CSE210/Main
     ```
 
-4. On startup, a test will be runned automatically.
+4. On startup, it will read the file and a test will be runned automatically. If any test fails, the program will abort.
 
 5. Type in number 1 - 6 to run differnt task as instructed and 7 to quit.
 

@@ -81,7 +81,7 @@ public class Researcher {
             if (researchers.size() > 1) {
                 Util.log("\n* Attention: There are multiple records with that name!");
                 for (int i = 0; i < researchers.size(); i++) {
-                    System.out.printf("%d", i + 1);
+                    System.out.printf("-> %d", i + 1);
                     researchers.get(i).printDetails();
                 }
                 int choice = Util.numberInput("Please choose the desired one: ", 1, researchers.size());

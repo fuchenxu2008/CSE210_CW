@@ -22,10 +22,10 @@ public class Main {
             int action = Util.numberInput("Input task number to begin: ", 1, 7);
             switch (action) {
                 case 1:
-                    Util.log(Researcher.numberOfResearchers);
+                    Util.log("Total number of distinct researchers is " + Researcher.numberOfResearchers);
                     break;
                 case 2:
-                    Util.log(Interest.interestMap.size());
+                    Util.log("Total number of distinct interests is " + Interest.interestMap.size());
                     break;
                 case 3:
                     String name = Util.stringInput("Enter a researcher's name: ");
@@ -35,11 +35,11 @@ public class Main {
                     break;
                 case 4:
                     String interest = Util.stringInput("Enter an interest: ").toLowerCase();
-                    Util.log(Interest.numOfInterestSharedBy(interest));
+                    Util.log(Interest.numOfInterestSharedBy(interest) + " researchers found with that interest.");
                     break;
                 case 5:
                     String inputInterests = Util.stringInput("Enter two interests (delimited by comma): ").toLowerCase();
-                    Util.log(Interest.getCoOccurTimes(inputInterests));
+                    Util.log(Interest.getCoOccurTimes(inputInterests) +" researchers have those two interests.");
                     break;
                 case 6:
                     String inputResearcher = Util.stringInput("Enter a researcher's name: ");

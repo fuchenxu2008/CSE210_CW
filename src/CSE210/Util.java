@@ -66,12 +66,4 @@ public class Util {
     public static void log(String str) {
        System.out.println(str);
     }
-
-    /**
-     * Simply output to the console
-     * @param i integer to log onto console
-     */
-    public static void log(int i) {
-        System.out.println(i);
-    }
 }
