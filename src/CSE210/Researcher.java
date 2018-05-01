@@ -75,6 +75,9 @@ public class Researcher {
      * @return One researcher object with given name or null if not found
      */
     public static Researcher getResearcherByName(String name) {
+        // Try to access the researcher entry by given name as key, return null if not exist
+        // If the list of researchers obtained by that name containes more than one researcher, ask user to choose one
+        // else return the only one in the list
         Researcher desiredResearcher = null;
         if (researcherMap.containsKey(name)) {
             ArrayList<Researcher> researchers = researcherMap.get(name);
@@ -99,6 +102,11 @@ public class Researcher {
      * @return The result of Cosine Similarity algorithm
      */
     public double cosineSimilarityWith(Researcher comparedResearcher) {
+        /*
+            For task 6, Cosine Similarity algorithm is used.
+            First, compute the union set and intersection set of two researchers' interests sets, if no interest found in common, it will return 0 similarity.
+            For the interests they have in common, use vector to represent them and calculate the angle between two vectors by cosine formular to infer similarity.
+        */
         HashSet<String> commonInterests = new HashSet<>(this.getInterest());
         commonInterests.retainAll(comparedResearcher.getInterest());
         if (commonInterests.size() == 0) {
@@ -140,6 +148,8 @@ public class Researcher {
                 }
             }
         }
+
+        // Convert Hashmap to a ArrayList with its entryset and sort by value which is similarity value
         ArrayList<Map.Entry<Researcher, Double>> similarityRankList = new ArrayList<>(similarityRank.entrySet());
         Collections.sort(similarityRankList, new Comparator<Map.Entry<Researcher, Double>>() {
             public int compare(Map.Entry<Researcher, Double> o1, Map.Entry<Researcher, Double> o2) {

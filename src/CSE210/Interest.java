@@ -37,6 +37,7 @@ public class Interest {
      */
     public static int numOfInterestSharedBy(String interest) {
         int size = 0;
+        // The interestMap contains key value pair of: interest name - list of researchers who have it
         if (interestMap.containsKey(interest)) {
             size = interestMap.get(interest).size();
         } else {
@@ -62,6 +63,7 @@ public class Interest {
             Util.log("* Entered interest(s) does not exist!");
             return 0;
         }
+        // Calculate the union set of the two sets which contained all researchers who have that interest
         ArrayList<Researcher> sharedResearchers = new ArrayList<>(interestMap.get(firstInterest));
         sharedResearchers.retainAll(interestMap.get(secondInterest));
         return sharedResearchers.size();
