@@ -36,7 +36,7 @@ public class Interest {
 
     /**
      * Get the total number of researchers who have the given interest
-     * @param interest
+     * @param interest given interest name
      * @return the total number of researchers
      */
     public static int numOfInterestSharedBy(String interest) {
@@ -66,7 +66,7 @@ public class Interest {
             System.out.println("* Entered interest(s) does not exist!");
             return 0;
         }
-        ArrayList<Researcher> sharedResearchers = (ArrayList<Researcher>)interestMap.get(firstInterest).clone();
+        ArrayList<Researcher> sharedResearchers = new ArrayList<>(interestMap.get(firstInterest));
         sharedResearchers.retainAll(interestMap.get(secondInterest));
         return sharedResearchers.size();
     }

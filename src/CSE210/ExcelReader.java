@@ -37,7 +37,6 @@ public class ExcelReader {
     /**
      * Constructs and initialize a Excel Workbook from given file path
      * @param filePath file path of the excel file to read
-     * @exception Exception handle unreported exception InvalidFormatException
      */
     public ExcelReader(String filePath) {
         try {
