@@ -44,7 +44,7 @@ public class ExcelReader {
             this.sheet = wb.getSheetAt(0);
             this.initialize();
         } catch (Exception e) {
-            System.out.println(e);
+            Util.log("* Failed to read excel file!");
         }
     }
 
@@ -52,7 +52,6 @@ public class ExcelReader {
      * Traverse and establish two Maps for Researchers and Interests
      */
     private void initialize() {
-        System.out.println("* Initializing...");
         for (Row row : this.sheet) {
             // Map the title row
             if (row.getRowNum() == 0) this.mapTitles(row);

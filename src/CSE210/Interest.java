@@ -6,10 +6,6 @@ package src.CSE210;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-
-import src.CSE210.Researcher;
-import src.CSE210.Utility;
 
 /**
  * Class to group interest related function
@@ -44,7 +40,7 @@ public class Interest {
         if (interestMap.containsKey(interest)) {
             size = interestMap.get(interest).size();
         } else {
-            System.out.println("* No info on that bizzare interest.");
+            Util.log("* No info on that bizzare interest.");
         }
         return size;
     }
@@ -57,13 +53,13 @@ public class Interest {
     public static int getCoOccurTimes(String twoInterests) {
         String[] interestPair = twoInterests.split(",");
         if (interestPair.length != 2) {
-            System.out.println("* Please input two interests!");
+            Util.log("* Please input two interests!");
             return 0;
         }
         String firstInterest = interestPair[0].trim();
         String secondInterest = interestPair[1].trim();
         if (!interestMap.containsKey(firstInterest) || !interestMap.containsKey(secondInterest)) {
-            System.out.println("* Entered interest(s) does not exist!");
+            Util.log("* Entered interest(s) does not exist!");
             return 0;
         }
         ArrayList<Researcher> sharedResearchers = new ArrayList<>(interestMap.get(firstInterest));

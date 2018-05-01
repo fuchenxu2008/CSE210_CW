@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import src.CSE210.Utility;
-
 /**
  * Class to instantiate Researcher object and group researcher related functions
  * @author Chenxu Fu
@@ -81,12 +79,12 @@ public class Researcher {
         if (researcherMap.containsKey(name)) {
             ArrayList<Researcher> researchers = researcherMap.get(name);
             if (researchers.size() > 1) {
-                System.out.println("\n* Attention: There are multiple records with that name!");
+                Util.log("\n* Attention: There are multiple records with that name!");
                 for (int i = 0; i < researchers.size(); i++) {
                     System.out.printf("%d", i + 1);
                     researchers.get(i).printDetails();
                 }
-                int choice = Utility.numberInput("Please choose the desired one: ", 1, researchers.size());
+                int choice = Util.numberInput("Please choose the desired one: ", 1, researchers.size());
                 desiredResearcher = researchers.get(choice - 1);
             } else {
                 desiredResearcher = researchers.get(0);
@@ -124,11 +122,12 @@ public class Researcher {
     /**
      * Iterate all other researchers to compute cosine similarity with current researcher
      * Sort the result and give top 5 recommendations
+     * @return topmost related researcher's name, for testing only
      */
-    public void recommendSimilar() {
+    public String recommendSimilar() {
         if (this.getInterest().size() == 0) {
-            System.out.println("This researcher has no interest, can't find similar researchers!");
-            return;
+            Util.log("This researcher has no interest, can't find similar researchers!");
+            return "";
         }
         HashMap<Researcher, Double> similarityRank = new HashMap<>();
         for (ArrayList<Researcher> researchersWithName: researcherMap.values()) {
@@ -152,6 +151,7 @@ public class Researcher {
         for (int i = 0; i < NumOfRecommendation; i++) {
             System.out.printf("%d. %s: %f\n", i + 1, similarityRankList.get(i).getKey().getName(), similarityRankList.get(i).getValue());
         }
+        return similarityRankList.get(0).getKey().getName();
     }
 
     /**

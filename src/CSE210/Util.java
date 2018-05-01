@@ -1,18 +1,16 @@
 /**
- * Utility
+ * Util
  */
 
 package src.CSE210;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-// import java.util.ArrayList;
 
 /**
  * Class that gathers some helper functions
  * @author Chenxu Fu
  */
-public class Utility {
+public class Util {
     static Scanner kb = new Scanner(System.in);
     
     /**
@@ -29,7 +27,7 @@ public class Utility {
                 input = kb.nextLine().trim();
                 validInput = true;
             } catch (Exception e) {
-                System.out.println("Invalid input, please retry! ");
+                Util.log("Invalid input, please retry! ");
                 kb.nextLine(); // Clear the buffer
             }
         }
@@ -51,13 +49,29 @@ public class Utility {
                 System.out.print("\n=> " + prompt);
                 input = kb.nextInt();
                 if (lowerBound <= input && input <= upperBound) validInput = true;
-                else System.out.println("Invalid input, please retry! ");
+                else Util.log("Invalid input, please retry! ");
                 kb.nextLine();
             } catch (Exception e) {
-                System.out.println("Invalid input, please retry! ");
+                Util.log("Invalid input, please retry! ");
                 kb.nextLine(); // Clear the buffer
             }
         }
         return input;
+    }
+
+    /**
+     * Simply output to the console
+     * @param str string to log onto console
+     */
+    public static void log(String str) {
+       System.out.println(str);
+    }
+
+    /**
+     * Simply output to the console
+     * @param i integer to log onto console
+     */
+    public static void log(int i) {
+        System.out.println(i);
     }
 }
