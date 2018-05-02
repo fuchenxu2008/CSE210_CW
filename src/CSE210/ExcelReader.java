@@ -24,7 +24,7 @@ import java.util.HashSet;
  * ExcelReader uses POI to read excel file
  * It read the data into memory
  * 
- * @author Chenxu Fu
+ * @author Chenxu Fu (Steve)
  */
 public class ExcelReader {
     // Formatter to get Excel cell content regardless of type
